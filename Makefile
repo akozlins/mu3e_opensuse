@@ -27,7 +27,7 @@ geant4-install :
 	sudo $(MAKE) install
 
 root-prepare :
-	sudo zypper install libX11-devel libXpm-devel libXft-devel
+	sudo zypper install libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
 	git clone https://github.com/root-project/root
 	mkdir -p root/cmake-build
 
@@ -36,6 +36,7 @@ root-make :
 	cmake \
 	    -DCMAKE_INSTALL_PREFIX=/opt/root \
 	    -DCMAKE_CXX_STANDARD=17 \
+	    -Dxrootd=OFF \
 	    ..
 	$(MAKE)
 
