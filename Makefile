@@ -3,11 +3,13 @@
 .ONESHELL :
 
 init :
-	sudo zypper install git patch cmake gcc-c++
+	sudo zypper install --no-confirm \
+	    git patch cmake gcc-c++
 
 .PHONY : geant4-prepare
 geant4-prepare :
-	sudo zypper install libexpat-devel libqt5-creator libXmu-devel
+	sudo zypper install --no-confirm \
+	    libexpat-devel libqt5-creator libXmu-devel
 	git clone https://gitlab.cern.ch/geant4/geant4
 	mkdir -p geant4/cmake-build
 
@@ -27,7 +29,8 @@ geant4-install :
 	sudo $(MAKE) install
 
 root-prepare :
-	sudo zypper install libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
+	sudo zypper install --no-confirm \
+	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
 	git clone https://github.com/root-project/root
 	mkdir -p root/cmake-build
 
@@ -46,6 +49,7 @@ root-install :
 
 midas-prepare :
 	git clone https://bitbucket.org/tmidas/midas
+	git -C midas submodule update --init --recursive
 	mkdir -p midas/cmake-build
 
 midas-make :
