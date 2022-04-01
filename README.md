@@ -5,6 +5,7 @@
     - select "Desktop with GNOME"
     - partitioning:
         - select "Guided Setup"
+        - choose "Remove even if not needed" everywhere
         - `ext4` file system, no swap partition
     - clock and time zone: Europe / Germany
     - user: `labor`, password: `labor`

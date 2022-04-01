@@ -7,14 +7,14 @@ init :
 	    git patch cmake gcc-c++
 
 .PHONY : geant4-prepare
-geant4-prepare :
+geant4/.git/config :
 	sudo zypper install --no-confirm \
 	    libexpat-devel libqt5-creator libXmu-devel
 	git clone https://gitlab.cern.ch/geant4/geant4
 	mkdir -p geant4/cmake-build
 
 .PHONY : geant4-make
-geant4-make :
+geant4-make : geant4/.git/config
 	cd geant4/cmake-build
 	cmake \
 	    -DCMAKE_INSTALL_PREFIX=/opt/geant4 \
@@ -28,13 +28,13 @@ geant4-install :
 	cd geant4/cmake-build
 	sudo $(MAKE) install
 
-root-prepare :
+root/.git/config :
 	sudo zypper install --no-confirm \
 	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
 	git clone https://github.com/root-project/root
 	mkdir -p root/cmake-build
 
-root-make :
+root-make : root/.git/config
 	cd root/cmake-build
 	cmake \
 	    -DCMAKE_INSTALL_PREFIX=/opt/root \
@@ -47,12 +47,12 @@ root-install :
 	cd root/cmake-build
 	sudo $(MAKE) install
 
-midas-prepare :
+midas/.git/index :
 	git clone https://bitbucket.org/tmidas/midas
 	git -C midas submodule update --init --recursive
 	mkdir -p midas/cmake-build
 
-midas-make :
+midas-make : midas/.git/config
 	cd midas/cmake-build
 	cmake \
 	    -DNO_NVIDIA=1 \
