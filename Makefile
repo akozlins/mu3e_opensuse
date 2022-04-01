@@ -47,10 +47,11 @@ root-install :
 	cd root/cmake-build
 	sudo $(MAKE) install
 
-midas/.git/index :
+midas/.git/config :
 	git clone https://bitbucket.org/tmidas/midas
 	git -C midas submodule update --init --recursive
 	mkdir -p midas/cmake-build
+	ln -s -T $(shell readlink -f -- midas) ~/midas
 
 midas-make : midas/.git/config
 	cd midas/cmake-build

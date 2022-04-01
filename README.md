@@ -14,3 +14,14 @@
 - packages:
     - `sudo zypper install git make`
     - `git clone https://github.com/akozlins/mu3e_opensuse`
+
+## vscode
+
+- <https://en.opensuse.org/Visual_Studio_Code>
+
+```
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode
+sudo zypper refresh
+sudo zypper install code
+```
