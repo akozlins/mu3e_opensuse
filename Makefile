@@ -5,6 +5,8 @@
 init :
 	sudo zypper install --no-confirm \
 	    git patch cmake gcc-c++
+	sudo zypper install --no-confirm \
+	    'xorg-*-devel' 'libboost_*1_75_0-devel' 'libQt5*-devel'
 
 .PHONY : geant4-prepare
 geant4/.git/config :

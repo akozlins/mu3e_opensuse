@@ -14,6 +14,10 @@
 - packages:
     - `sudo zypper install git make`
     - `git clone https://github.com/akozlins/mu3e_opensuse`
+    - `cd mu3e_opensuse` and `make init`
+    - geant4: `make geant4-make` and `make geant4-install`
+    - root: `make room-make` and `make root-install`
+    - midas: `make midas-make` and `make midas-install`
 
 ## vscode
 
