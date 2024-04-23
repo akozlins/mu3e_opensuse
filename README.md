@@ -19,6 +19,26 @@
     - root: `make room-make` and `make root-install`
     - midas: `make midas-make` and `make midas-install`
 
+## setup
+
+- `sudo systemctl link /usr/share/systemd/tmp.mount`
+- `sudo ln -fs /dev/null /etc/sysctl.d/50-coredump.conf`
+
+### forwarding
+
+- `sudo yast routing ip-forwarding on`
+- 'systemsettings' -> enable `firewalld`
+- `eth0` -> external network, `eth1` -> internal network
+
+## release upgrade
+
+```
+sudo zypper repos --uri
+sudo zypper --releasever=15.5 lr -u
+sudo zypper --releasever=15.5 refresh
+sudo zypper --releasever=15.5 dup --download-in-heaps
+```
+
 ## vscode
 
 - <https://en.opensuse.org/Visual_Studio_Code>
@@ -36,4 +56,14 @@ sudo zypper install code
 sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
 sudo zypper install cuda-12-4
 sudo usermod -a -G video mu3e
+```
+
+## quartus
+
+```
+https://github.com/superzeldalink/quartus-install
+cd quartus-install
+sudo zypper in aria2
+./quartus-install.py --download-only 20.1std . a10 a5 m10 m5
+sudo ./quartus-install.py --install-only 20.1std /opt/intelFPGA/20.1 a10 a5 m10 m5
 ```
