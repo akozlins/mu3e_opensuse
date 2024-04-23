@@ -1,6 +1,6 @@
 #
 
-- download and install OpenSuse Leap 15.3
+- download and install OpenSuse Leap 15.5
     - select "Activate Online Repositories"
     - select "Desktop with GNOME"
     - partitioning:
@@ -28,4 +28,12 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode
 sudo zypper refresh
 sudo zypper install code
+```
+
+## cuda
+
+```
+sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
+sudo zypper install cuda-12-4
+sudo usermod -a -G video mu3e
 ```

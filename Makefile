@@ -4,9 +4,11 @@
 
 init :
 	sudo zypper install --no-confirm \
-	    git patch cmake gcc-c++
+	    git patch cmake gcc-c++ ninja
 	sudo zypper install --no-confirm \
 	    'xorg-*-devel' 'libboost_*1_75_0-devel' 'libQt5*-devel'
+	sudo zypper install --no-confirm \
+	    eigen3-devel liblz4-devel libcurl-devel fmt-devel
 
 .PHONY : geant4-prepare
 geant4/.git/config :
@@ -23,17 +25,18 @@ geant4-make : geant4/.git/config
 	    -DGEANT4_INSTALL_DATA=ON \
 	    -DGEANT4_USE_QT=ON \
 	    -DGEANT4_USE_OPENGL_X11=ON \
+	    -G Ninja \
 	    ..
-	$(MAKE)
+	ninja
 
 geant4-install :
 	cd geant4/cmake-build
-	sudo $(MAKE) install
+	sudo ninja install
 
 root/.git/config :
 	sudo zypper install --no-confirm \
 	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
-	git clone https://github.com/root-project/root
+	git clone https://github.com/root-project/root --branch v6-26-16
 	mkdir -p root/cmake-build
 
 root-make : root/.git/config
@@ -42,12 +45,13 @@ root-make : root/.git/config
 	    -DCMAKE_INSTALL_PREFIX=/opt/root \
 	    -DCMAKE_CXX_STANDARD=17 \
 	    -Dxrootd=OFF \
+	    -G Ninja \
 	    ..
-	$(MAKE)
+	ninja
 
 root-install :
 	cd root/cmake-build
-	sudo $(MAKE) install
+	sudo ninja install
 
 midas/.git/config :
 	git clone https://bitbucket.org/tmidas/midas
