@@ -21,7 +21,7 @@ geant4-make : geant4/.git/config
 	mkdir -p geant4/cmake-build
 	cd geant4/cmake-build
 	cmake \
-	    -DCMAKE_INSTALL_PREFIX=/opt/geant4 \
+	    -DCMAKE_INSTALL_PREFIX=/opt/geant4-11.1.2 \
 	    -DGEANT4_INSTALL_DATA=ON \
 	    -DGEANT4_USE_QT=ON \
 	    -DGEANT4_USE_OPENGL_X11=ON \
@@ -42,8 +42,9 @@ root-make : root/.git/config
 	mkdir -p root/cmake-build
 	cd root/cmake-build
 	cmake \
-	    -DCMAKE_INSTALL_PREFIX=/opt/root \
+	    -DCMAKE_INSTALL_PREFIX=/opt/root-6.26.16 \
 	    -DCMAKE_CXX_STANDARD=17 \
+	    -DLLVM_CXX_STD=c++17 \
 	    -Dxrootd=OFF \
 	    -G Ninja \
 	    ..
