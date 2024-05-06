@@ -14,11 +14,11 @@ init :
 geant4/.git/config :
 	sudo zypper install --no-confirm \
 	    libexpat-devel libqt5-creator libXmu-devel
-	git clone https://gitlab.cern.ch/geant4/geant4
-	mkdir -p geant4/cmake-build
+	git clone https://gitlab.cern.ch/geant4/geant4 --branch v11.1.2
 
 .PHONY : geant4-make
 geant4-make : geant4/.git/config
+	mkdir -p geant4/cmake-build
 	cd geant4/cmake-build
 	cmake \
 	    -DCMAKE_INSTALL_PREFIX=/opt/geant4 \
@@ -37,9 +37,9 @@ root/.git/config :
 	sudo zypper install --no-confirm \
 	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
 	git clone https://github.com/root-project/root --branch v6-26-16
-	mkdir -p root/cmake-build
 
 root-make : root/.git/config
+	mkdir -p root/cmake-build
 	cd root/cmake-build
 	cmake \
 	    -DCMAKE_INSTALL_PREFIX=/opt/root \
