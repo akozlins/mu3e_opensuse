@@ -24,6 +24,13 @@
 - `sudo systemctl link /usr/share/systemd/tmp.mount`
 - `sudo ln -fs /dev/null /etc/sysctl.d/50-coredump.conf`
 
+```
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 130
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 130
+sudo update-alternatives --config g++
+sudo update-alternatives --config gcc
+```
+
 ### forwarding
 
 - `sudo yast routing ip-forwarding on`

@@ -35,7 +35,7 @@ geant4-install :
 
 root/.git/config :
 	sudo zypper install --no-confirm \
-	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel
+	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel libxml2-devel
 	git clone https://github.com/root-project/root --branch v6-26-16
 
 root-make : root/.git/config
