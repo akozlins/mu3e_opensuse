@@ -24,6 +24,15 @@
 - `sudo systemctl link /usr/share/systemd/tmp.mount`
 - `sudo ln -fs /dev/null /etc/sysctl.d/50-coredump.conf`
 
+### `.profile`
+
+```
+export ALTERAD_LICENSE_FILE=27001@mu3ebe
+source ~/.dotfiles/profile.d/90-quartus.sh
+source /opt/geant4/bin/geant4.sh
+source /opt/root/bin/thisroot.sh
+```
+
 ### forwarding
 
 - `sudo yast routing ip-forwarding on`
@@ -50,10 +59,12 @@ sudo zypper refresh
 sudo zypper install code
 ```
 
-## cuda
+## nvidia and cuda
 
 ```
 sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
+sudo zypper remove 'cuda-*' 'nvidia-*'
+sudo zypper install nvidia-video-G06
 sudo zypper install cuda-12-4
 sudo usermod -a -G video mu3e
 ```
