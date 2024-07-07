@@ -59,6 +59,7 @@ root-make : root/.git/config
 root-install :
 	cd root/cmake-build
 	sudo ninja install
+	sudo ln -s -T root-6.29.02 /opt/root
 
 midas/.git/config :
 	git clone https://bitbucket.org/tmidas/midas
@@ -80,3 +81,10 @@ midas-make : midas/.git/config
 midas-install :
 	cd midas/cmake-build
 	$(MAKE) install
+
+quartus :
+	sudo zypper install --no-confirm \
+	    aria2
+	cd quartus-install
+	./quartus-install.py --download-only 20.1std . a10 a5 m10 m5
+	sudo ./quartus-install.py --install-only 20.1std /opt/intelFPGA/20.1 a10 a5 m10 m5

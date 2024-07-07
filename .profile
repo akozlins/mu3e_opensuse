@@ -1,5 +1,7 @@
 #
 
+export LESSHISTFILE=-
+
 export ALTERAD_LICENSE_FILE=27001@mu3ebe
 source ~/.dotfiles/profile.d/90-quartus.sh
 source /opt/geant4/bin/geant4.sh

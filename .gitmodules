@@ -1,0 +1,3 @@
+[submodule "quartus-install"]
+	path = quartus-install
+	url = https://github.com/superzeldalink/quartus-install
