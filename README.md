@@ -43,9 +43,19 @@ source /opt/root/bin/thisroot.sh
 
 ```
 sudo zypper repos --uri
-sudo zypper --releasever=15.5 lr -u
-sudo zypper --releasever=15.5 refresh
-sudo zypper --releasever=15.5 dup --download-in-heaps
+sudo zypper --releasever=15.6 lr -u
+sudo zypper --releasever=15.6 refresh
+sudo zypper --releasever=15.6 dup --download-in-advance
+sudo zypper rm --clean-deps $(zypper packages --orphaned --unneeded | awk -F'|' '{if($1=="i ") print $3}')
+```
+
+## nvidia and cuda
+
+```
+sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
+sudo zypper remove 'nvidia-*' 'cuda-*' cuda
+sudo zypper install nvidia-video-G06 cuda
+sudo usermod -a -G video "$USER"
 ```
 
 ## vscode
@@ -57,16 +67,6 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode
 sudo zypper refresh
 sudo zypper install code
-```
-
-## nvidia and cuda
-
-```
-sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
-sudo zypper remove 'cuda-*' 'nvidia-*'
-sudo zypper install nvidia-video-G06
-sudo zypper install cuda-12-4
-sudo usermod -a -G video mu3e
 ```
 
 ## quartus
