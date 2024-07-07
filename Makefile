@@ -69,8 +69,11 @@ midas/.git/config :
 midas-make : midas/.git/config
 	cd midas/cmake-build
 	cmake \
+	    -DNO_MYSQL=1 \
 	    -DNO_NVIDIA=1 \
 	    -DNO_OPENCV=1 \
+	    -DNO_PGSQL=1 \
+	    -DNO_SQLITE=1 \
 	    ..
 	$(MAKE)
 

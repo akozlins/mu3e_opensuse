@@ -24,15 +24,6 @@
 - `sudo systemctl link /usr/share/systemd/tmp.mount`
 - `sudo ln -fs /dev/null /etc/sysctl.d/50-coredump.conf`
 
-### `.profile`
-
-```
-export ALTERAD_LICENSE_FILE=27001@mu3ebe
-source ~/.dotfiles/profile.d/90-quartus.sh
-source /opt/geant4/bin/geant4.sh
-source /opt/root/bin/thisroot.sh
-```
-
 ### forwarding
 
 - `sudo yast routing ip-forwarding on`
@@ -42,20 +33,16 @@ source /opt/root/bin/thisroot.sh
 ## release upgrade
 
 ```
+sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
+sudo usermod -a -G video "$USER"
+
 sudo zypper repos --uri
 sudo zypper --releasever=15.6 lr -u
 sudo zypper --releasever=15.6 refresh
 sudo zypper --releasever=15.6 dup --download-in-advance
 sudo zypper rm --clean-deps $(zypper packages --orphaned --unneeded | awk -F'|' '{if($1=="i ") print $3}')
-```
-
-## nvidia and cuda
-
-```
-sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
 sudo zypper remove 'nvidia-*' 'cuda-*' cuda
 sudo zypper install nvidia-video-G06 cuda
-sudo usermod -a -G video "$USER"
 ```
 
 ## vscode
