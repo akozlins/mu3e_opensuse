@@ -1,6 +1,8 @@
 #
 
 .ONESHELL :
+SHELL := /bin/bash
+.SHELLFLAGS := -euf -c
 
 init :
 	sudo zypper install --no-confirm \
@@ -16,21 +18,24 @@ init :
 	sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 10
 	sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
 
+GEANT4_TAG := v11.1.2
+
 .PHONY : geant4-prepare
 geant4/.git/config :
 	sudo zypper install --no-confirm \
 	    libexpat-devel libqt5-creator libXmu-devel
-	git clone https://gitlab.cern.ch/geant4/geant4 --branch v11.1.2
+	git clone https://gitlab.cern.ch/geant4/geant4 --branch $(GEANT4_TAG)
 
 .PHONY : geant4-make
 geant4-make : geant4/.git/config
 	mkdir -p geant4/cmake-build
 	cd geant4/cmake-build
 	cmake \
-	    -DCMAKE_INSTALL_PREFIX=/opt/geant4-11.1.2 \
+	    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	    -DCMAKE_INSTALL_PREFIX=/opt/geant4-$(GEANT4_TAG) \
 	    -DGEANT4_INSTALL_DATA=ON \
-	    -DGEANT4_USE_QT=ON \
 	    -DGEANT4_USE_OPENGL_X11=ON \
+	    -DGEANT4_USE_QT=ON \
 	    -G Ninja \
 	    ..
 	ninja
@@ -38,17 +43,21 @@ geant4-make : geant4/.git/config
 geant4-install :
 	cd geant4/cmake-build
 	sudo ninja install
+	sudo ln -sf -T geant4-$(GEANT4_TAG) /opt/geant4
+
+ROOT_TAG := v6-29-02
 
 root/.git/config :
 	sudo zypper install --no-confirm \
 	    libX11-devel libXpm-devel libXft-devel libXext-devel libopenssl-devel libpng16-devel libxml2-devel
-	git clone https://github.com/root-project/root --branch v6-29-02
+	git clone https://github.com/root-project/root --branch $(ROOT_TAG)
 
 root-make : root/.git/config
 	mkdir -p root/cmake-build
 	cd root/cmake-build
 	cmake \
-	    -DCMAKE_INSTALL_PREFIX=/opt/root-6.29.02 \
+	    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	    -DCMAKE_INSTALL_PREFIX=/opt/root-$(ROOT_TAG) \
 	    -DCMAKE_CXX_STANDARD=17 \
 	    -DLLVM_CXX_STD=c++17 \
 	    -Dxrootd=OFF \
@@ -59,7 +68,7 @@ root-make : root/.git/config
 root-install :
 	cd root/cmake-build
 	sudo ninja install
-	sudo ln -s -T root-6.29.02 /opt/root
+	sudo ln -sf -T root-$(ROOT_TAG) /opt/root
 
 midas/.git/config :
 	git clone https://bitbucket.org/tmidas/midas
@@ -88,3 +97,8 @@ quartus :
 	cd quartus-install
 	./quartus-install.py --download-only 20.1std . a10 a5 m10 m5
 	sudo ./quartus-install.py --install-only 20.1std /opt/intelFPGA/20.1 a10 a5 m10 m5
+	# jtag udev rules
+	sudo cat > /etc/udev/rules.d/51-usbblaster.rules << EOF
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6010", MODE="0666"
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="09fb", ATTRS{idProduct}=="6810", MODE="0666"
+	EOF

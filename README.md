@@ -28,7 +28,7 @@
 
 - `sudo yast routing ip-forwarding on`
 - 'systemsettings' -> enable `firewalld`
-- `eth0` -> external network, `eth1` -> internal network
+- `eth0` -> external network, `eth1` -> trusted network
 
 ## upgrade
 
@@ -58,3 +58,14 @@ sudo zypper addrepo https://packages.microsoft.com/yumrepos/vscode vscode
 sudo zypper refresh
 sudo zypper install code
 ```
+
+## firewall configuration
+
+run `sudo yast` and in 'Security and Users' -> 'Firewall' do following:
+
+- in 'Interfaces' change external (PSI network interface, usually `eth0`) interface type to 'external'
+  and change internal (e.g. `eth3`) interface to 'trusted'
+- in 'Zones' set external interface as 'Default'
+- in 'Start-Up' request 'Restart' of firewall service
+- save configuration
+- on one of the internal machines (e.g. `mu3efarm0`) check connection to outside with `ping google.com`
