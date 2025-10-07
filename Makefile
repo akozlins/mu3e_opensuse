@@ -8,16 +8,9 @@ init :
 	sudo zypper install --no-confirm \
 	    git patch cmake gcc-c++ ninja
 	sudo zypper install --no-confirm \
-	    'xorg-*-devel' 'libboost_*1_75_0-devel' 'libQt5*-devel'
+	    'xorg-*-devel' 'libboost_*1_86_0-devel' 'libQt5*-devel'
 	sudo zypper install --no-confirm \
 	    eigen3-devel liblz4-devel libcurl-devel fmt-devel gtkmm3-devel
-	# gcc13
-	sudo zypper install --no-confirm \
-	    gcc13-c++
-	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 130
-	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 130
-	sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 10
-	sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
 
 GEANT4_TAG := v11.1.2
 
@@ -46,7 +39,7 @@ geant4-install :
 	sudo ninja install
 	sudo ln -sf -T geant4-$(GEANT4_TAG) /opt/geant4
 
-ROOT_TAG := v6-29-02
+ROOT_TAG := v6-36-04
 
 root/.git/config :
 	sudo zypper install --no-confirm \
