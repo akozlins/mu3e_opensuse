@@ -42,10 +42,12 @@ sudo zypper --releasever=15.6 lr -u
 sudo zypper --releasever=15.6 refresh
 sudo zypper --releasever=15.6 dup --download-in-advance
 # remove nvidia drivers and cleanup
-sudo zypper remove 'nvidia-*' 'cuda-*' cuda
+sudo zypper remove '*nvidia*' 'cuda-*' cuda
 sudo zypper rm --clean-deps $(zypper packages --orphaned --unneeded | awk -F'|' '{if($1~"^i ") print $3}')
 # install nvidia drivers
-sudo zypper install nvidia-video-G06 cuda
+
+sudo zypper install-new-recommends
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ```
 
 ## vscode

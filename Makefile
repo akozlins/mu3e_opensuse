@@ -12,7 +12,8 @@ init :
 	sudo zypper install --no-confirm \
 	    eigen3-devel liblz4-devel libcurl-devel fmt-devel gtkmm3-devel
 	# gcc13
-	sudo zypper install gcc13-c++
+	sudo zypper install --no-confirm \
+	    gcc13-c++
 	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 130
 	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 130
 	sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 10
@@ -60,7 +61,7 @@ root-make : root/.git/config
 	    -DCMAKE_INSTALL_PREFIX=/opt/root-$(ROOT_TAG) \
 	    -DCMAKE_CXX_STANDARD=17 \
 	    -DLLVM_CXX_STD=c++17 \
-	    -Dxrootd=OFF \
+	    -Ddavix=OFF -Dvdt=OFF -Dxrootd=OFF \
 	    -G Ninja \
 	    ..
 	ninja
