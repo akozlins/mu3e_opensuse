@@ -33,12 +33,6 @@
 ## upgrade
 
 ```
-sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
-sudo usermod -a -G video "$USER"
-
-sudo zypper addrepo https://download.opensuse.org/repositories/electronics/15.6 electronics
-sudo zypper in ghdl gtkwave
-
 sudo zypper repos --uri
 # NOTE: updgrade must be done to next version (e.g. 15.5 -> 15.6)
 sudo zypper --releasever=15.6 lr -u
@@ -46,10 +40,22 @@ sudo zypper --releasever=15.6 refresh
 sudo zypper --releasever=15.6 dup --download-in-advance
 sudo zypper rm --clean-deps $(zypper packages --orphaned --unneeded | awk -F'|' '{if($1~"^i ") print $3}')
 
+sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
+sudo usermod -a -G video "$USER"
+
 # remove nvidia drivers and cleanup
 sudo zypper remove '*nvidia*' 'cuda-*' cuda
 # install nvidia drivers
-sudo zypper install nvidia-video-G06 cuda-12-9
+sudo zypper refresh
+sudo zypper in nvidia-open-driver-G06-signed-cuda-kmp-default
+nvidia_version=$(rpm -qa --queryformat '%{VERSION}\n' nvidia-open-driver-G06-signed-cuda-kmp-default | cut -d "_" -f1 | sort -u | tail -n 1)
+sudo zypper in "nvidia-compute-utils-G06==${nvidia_version}" "nvidia-persistenced==${nvidia_version}" "nvidia-video-G06==${nvidia_version}"
+sudo zypper in cuda-toolkit-13
+# check versions
+zypper search --details --installed-only nvidia
+
+sudo zypper addrepo https://download.opensuse.org/repositories/electronics/15.6 electronics
+sudo zypper in ghdl gtkwave
 
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 ```
@@ -57,9 +63,8 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 ## opensuse 16
 
 ```
+# upgrade from 15.6 to 16
 sudo zypper in opensuse-migration-tool
-sudo zypper install-new-recommends
-sudo zypper install nvidia-open-driver-G06-signed-kmp-default nvidia-userspace-meta-G06
 
 # ia32
 sudo zypper in grub2-compat-ia32 libXft2-32bit libgcc_s1-32bit
