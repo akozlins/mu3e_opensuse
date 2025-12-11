@@ -11,6 +11,12 @@ init :
 	    'xorg-*-devel' 'libboost_*1_86_0-devel' 'libQt5*-devel'
 	sudo zypper install --no-confirm \
 	    eigen3-devel liblz4-devel libcurl-devel fmt-devel gtkmm3-devel
+	# gcc13
+	sudo zypper install --no-confirm gcc13-c++
+	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 130
+	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 130
+	sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 10
+	sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 10
 
 GEANT4_TAG := v11.1.2
 
