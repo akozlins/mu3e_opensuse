@@ -36,18 +36,35 @@
 sudo zypper addrepo https://developer.download.nvidia.com/compute/cuda/repos/opensuse15/x86_64/cuda-opensuse15.repo
 sudo usermod -a -G video "$USER"
 
+sudo zypper addrepo https://download.opensuse.org/repositories/electronics/15.6 electronics
+sudo zypper in ghdl gtkwave
+
 sudo zypper repos --uri
 # NOTE: updgrade must be done to next version (e.g. 15.5 -> 15.6)
 sudo zypper --releasever=15.6 lr -u
 sudo zypper --releasever=15.6 refresh
 sudo zypper --releasever=15.6 dup --download-in-advance
+sudo zypper rm --clean-deps $(zypper packages --orphaned --unneeded | awk -F'|' '{if($1~"^i ") print $3}')
+
 # remove nvidia drivers and cleanup
 sudo zypper remove '*nvidia*' 'cuda-*' cuda
-sudo zypper rm --clean-deps $(zypper packages --orphaned --unneeded | awk -F'|' '{if($1~"^i ") print $3}')
 # install nvidia drivers
+sudo zypper install nvidia-video-G06 cuda-12-9
 
-sudo zypper install-new-recommends
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+```
+
+## opensuse 16
+
+```
+sudo zypper in opensuse-migration-tool
+sudo zypper install-new-recommends
+sudo zypper install nvidia-open-driver-G06-signed-kmp-default nvidia-userspace-meta-G06
+
+# ia32
+sudo zypper in grub2-compat-ia32 libXft2-32bit libgcc_s1-32bit
+sudo /usr/sbin/update-bootloader --add-option "ia32_emulation=1"
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ## vscode
